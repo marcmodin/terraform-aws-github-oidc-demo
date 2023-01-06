@@ -1,5 +1,5 @@
 locals {
-  name_prefix = "playgroundtech-github-action-oidc-role"
+  name_prefix = "github-action-oidc-role"
   account_id  = data.aws_caller_identity.current.account_id
   # update this list or create a variable that can passed in as a file or something to add new roles
   allow_roles_list = [

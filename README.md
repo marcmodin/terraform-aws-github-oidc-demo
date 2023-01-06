@@ -44,4 +44,5 @@ The provider deployment creates a IAM provider that github can connect to and an
 3. if you have added new assumable roles in bootstrap, update `local.allow_roles_list` in the `provider/main.tf`
 4. initilize s3 backend for the `provider/` deployment and deploy
 5. create github secrets `AWS_DEV_OIDC_ROLE` and `AWS_DEV_OIDC_REGION` at an org level. TODO: we should deploy the secrets with the github provider
-6. create a repo called `terraform-aws-something` use the template files in `demo/` or run the demo
+6. create a repo called `terraform-aws-something` use the template files in `demo/` or run the demo directly from this project
+7. update the demo backend and assume_role blocks with s3 backend and role created in bootstrap

@@ -2,7 +2,7 @@
 # This role is created for the demo
 
 locals {
-  role_name_prefix = "github-oicd-demo-role"
+  role_name_prefix = "terraform-github-oicd-demo-role"
 }
 
 data "aws_iam_policy_document" "policy" {

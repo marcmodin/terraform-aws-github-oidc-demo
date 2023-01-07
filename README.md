@@ -6,7 +6,20 @@ This repo explores setting up AWS OIDC authentication with Github actions so we 
 
 We can use OpenID Connect within our workflows to authenticate with Amazon Web Services and get temporary session tokens to assume IAM roles.
 
-![Alt Text](./assets/oidc.png)
+```mermaid
+sequenceDiagram
+    autonumber
+    participant A as Github Actions
+    participant B as Oidc Provider
+    participant C as AWS IAM
+
+    A->>+B: Request JWT
+    B->>-A: Issue signed JWT
+    A->>+C: Request Access Token
+    C-->>+B: Verify Token
+    B-->>-C: Valid
+    C->>-A: Issue Role Access Session Token
+```
 
 **Example workflow**
 

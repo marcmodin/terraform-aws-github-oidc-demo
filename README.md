@@ -50,12 +50,18 @@ jobs:
 
 In the below steps we will deploy a remote-state backend for both this deploymeent and any others. To acheive least-privilege with terraform provisioing, ideally each terraform deployment should have its own role and scoped permissions to perform exactly what it needs. In the bootstrap deployment we also provision one such role. The role permissions are limited to `ssm, s3, dynambdb`
 
+### One to many
+
 The provider deployment creates a IAM provider that github can connect to and an **itermediary** role that the action workflow will assume. In my implementatios, this role does not have any permissions other than to assume the role created in `bootstrap/`. Your terraform provider code will need to use the assume_role block and `role_arn` attribute in the backend configuration.
+
+### Steps
 
 1. deploy `bootstrap/` directory to setup remote-state and any assumable terraform provisioning roles
 2. re-initilize s3 backend for the `bootstrap/`
-3. if you have added new assumable roles in bootstrap, update `local.allow_roles_list` in the `provider/main.tf`
-4. initilize s3 backend for the `provider/` deployment and deploy
-5. create github secrets `AWS_DEV_OIDC_ROLE` and `AWS_DEV_OIDC_REGION` at an org level. TODO: we should deploy the secrets with the github provider
-6. create a repo called `terraform-aws-something` use the template files in `demo/` or run the demo directly from this project
-7. update the demo backend and assume_role blocks with s3 backend and role created in bootstrap
+3. update `local.allow_roles_list` in the `provider/main.tf` with role/s for github action to assume, which you created in eg. ``bootstrap/github-oidc-demo-role.tf`.
+4. update `local.allow_repos_subs` with subject\s related to your github owner and or specific repo\s.
+5. initilize s3 backend for the `provider/` deployment and deploy
+6. create github secrets `AWS_DEV_OIDC_ROLE` and `AWS_DEV_OIDC_REGION`.
+   > TODO: we should deploy the secrets with the github provider
+7. create a demo repo called `terraform-aws-something` use the template files in `demo/` or run the demo directly from this project
+8. update your demo repo backend and assume_role blocks with s3 backend and role created in bootstrap

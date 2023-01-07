@@ -21,13 +21,6 @@ provider "aws" {
   #   session_name = "terraform-aws-github-oidc-demo"
   # }
 
-  default_tags {
-    tags = {
-      Environment = "dev"
-      Owner       = "marc"
-      Project     = "oidc-demo"
-    }
-  }
 }
 
 

@@ -44,8 +44,8 @@ data "aws_iam_policy_document" "policy" {
     ]
     effect = "Allow"
     resources = [
-      format("arn:aws:s3:::%s-%s", local.bucket_name_prefix, local.account_id),
-      format("arn:aws:s3:::%s-%s/*", local.bucket_name_prefix, local.account_id),
+      format("arn:aws:s3:::%s", local.bucket_name),
+      format("arn:aws:s3:::%s/*", local.bucket_name),
     ]
   }
 
@@ -64,7 +64,7 @@ data "aws_iam_policy_document" "policy" {
     ]
     effect = "Allow"
     resources = [
-      format("arn:aws:dynamodb:*:*:table/%s-table-%s", local.bucket_name_prefix, local.account_id)
+      format("arn:aws:dynamodb:*:*:table/%s", local.table_name)
     ]
   }
 }
@@ -76,7 +76,7 @@ module "iam_policy" {
   name        = format("%s-p", local.role_name_prefix)
   path        = "/"
   description = format("%s policy", local.role_name_prefix)
-  policy      = data.aws_iam_policy_document.policu.json
+  policy      = data.aws_iam_policy_document.policy.json
 }
 
 module "iam_assumable_role" {
@@ -95,4 +95,8 @@ module "iam_assumable_role" {
     module.iam_policy.arn
   ]
   number_of_custom_role_policy_arns = 1
+}
+
+output github-oicd-demo-role_arn {
+  value = module.iam_assumable_role.iam_role_arn 
 }
